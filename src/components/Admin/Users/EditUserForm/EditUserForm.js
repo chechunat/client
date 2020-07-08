@@ -49,8 +49,15 @@ export default function EditUserForm(props) {
                 notification["error"]({
                     message: "Las contraseñas tienen que ser iguales."
                 });
-            }
-            return;
+                return;
+            } else if (userUpdate.password.length<6){
+                notification["error"]({
+                    message: "Las contraseñas tiene que tener un mínimo de 6 carácteres."
+                });
+                return;
+            } else {
+                delete userUpdate.repeatPassword;                
+            }           
         }
 
         if (!userUpdate.name || !userUpdate.lastname || !userUpdate.email) {
@@ -64,20 +71,19 @@ export default function EditUserForm(props) {
             uploadAvatarApi(token, userUpdate.avatar, user._id).then(response => {
                 userUpdate.avatar = response.avatarName;
                 updateUserApi(token, userUpdate, user._id).then(result =>{
-                    notification["success"]({message: result.message});
-                    setIsVisibleModal(false);
-                    setReloadUsers(true);
-                });
+                    notification["success"]({message: result.message});                    
+                });                               
+                setIsVisibleModal(false);                         
+                setReloadUsers(true);                              
             });
         } else {
             updateUserApi(token, userUpdate, user._id).then(result =>{
-                notification["success"]({message: result.message});
-                setIsVisibleModal(false);
-                setReloadUsers(true);
+                notification["success"]({message: result.message});                
             });
-          }
+            setIsVisibleModal(false);                         
+            setReloadUsers(true);
 
-
+        }              
     }
     
 

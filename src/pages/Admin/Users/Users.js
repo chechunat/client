@@ -14,14 +14,12 @@ export default function Users() {
     useEffect(() => {
         getUserActiveApi(token, true).then(response => {
             setUsersActive(response.users);
-        });
-    }, [token]);
-    useEffect(() => {
+        });    
         getUserActiveApi(token, false).then(response => {
             setUsersInactive(response.users);
-        });
-        setReloadUsers(false);
-    }, [token, reloadUsers])
+        });        
+        setReloadUsers(false);        
+    }, [token, reloadUsers]);
 
     return (
         <div className='users'>

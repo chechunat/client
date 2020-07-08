@@ -58,6 +58,7 @@ export function getUserApi(token) {
         }
     };
 
+    
     return fetch(url, params)
         .then(response => {
             return response.json()
@@ -106,7 +107,6 @@ export function uploadAvatarApi(token, avatar, userId) {
             Authorization: token
         }        
     }
-
     return fetch(url, params).then(response =>{
         return response.json();
     }).then(result => {
@@ -118,7 +118,7 @@ export function uploadAvatarApi(token, avatar, userId) {
 
 export function getAvatarApi(avatarName){
     const url = `${basePath}/${apiVersion}/get-avatar/${avatarName}`;
-
+    
     return fetch(url).then(response => {
         return response.url;
     }).catch(err => {
@@ -127,7 +127,7 @@ export function getAvatarApi(avatarName){
 }
             
 export function updateUserApi(token, user, userId) {
-    const url = `${basePath}/${apiVersion}/upload-user/${userId}`;
+    const url = `${basePath}/${apiVersion}/update-user/${userId}`;
 
     const params = {
         method: "PUT",
@@ -136,10 +136,10 @@ export function updateUserApi(token, user, userId) {
             Authorization: token
         },
         body: JSON.stringify(user)
-    };
-
+    };  
+    
     return fetch(url, params)
-    .then(response => {
+    .then(response => {                
         return response.json();
     })
     .then(result => {
@@ -148,5 +148,80 @@ export function updateUserApi(token, user, userId) {
     .catch(err =>{
         return err.message;
     });
+
+}
+
+export function activateUserApi(token, userId, status) {
+    const url = `${basePath}/${apiVersion}/activate-user/${userId}`;
+
+    const params = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+        },
+        body: JSON.stringify({
+            active: status
+        })        
+    }
+
+    return fetch(url, params)
+        .then(response =>{
+            return response.json();
+        })
+        .then(result =>{
+            return result.message;
+        })
+        .catch(err => {
+            return err.message;
+        })
+}
+
+export function deleteUserApi(token, userId) {
+    const url = `${basePath}/${apiVersion}/delete-user/${userId}`;
+
+    const params = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+        }
+    };
+
+    return fetch(url, params)
+        .then(response =>{
+            return response.json();
+        })
+        .then(result =>{
+            return result.message;
+        })
+        .catch(err=>{
+            return err.message;
+        });
+
+}
+
+export function signUpAdminApi(token, data) {
+    const url = `${basePath}/${apiVersion}/sign-up-admin`;
+
+    const params = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+        },
+        body: JSON.stringify(data)
+    }
+
+    return fetch(url, params)
+        .then(response =>{
+            return response.json();
+        })
+        .then(result =>{
+            return result.message;
+        })
+        .catch(err =>{
+            return err.message;
+        })
 
 }
