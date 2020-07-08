@@ -31,6 +31,36 @@ export default function ListUsers(props) {
         )
     }
 
+    //Aqui pongo el ShowDeleteConfirm para no repetir código
+    const ShowDeleteConfirm = (user) =>{
+        const accesToken = getAccessTokenApi();
+
+        
+
+
+        confirm({
+            title: "Eliminando Usuario",
+            content: `¿Estás seguro que quieres eliminar a ${user.email}?`,
+            okText: "Eliminar",
+            okType: "danger",
+            cancelText: "Cancelar",
+            onOk() {
+                deleteUserApi(accesToken, user._id)
+                .then(response =>{
+                    notification["success"]({
+                        message: response
+                    });
+                    setReloadUsers(true);
+                })
+                .catch(err =>{
+                    notification["error"]({
+                        message: err
+                    });
+                });
+            }            
+        });
+    };
+
     return (
         <div className="list-users">
 
@@ -61,12 +91,14 @@ export default function ListUsers(props) {
                 setIsVisibleModal={setIsVisibleModal}
                 setModalTitle={setModalTitle}
                 setModalContent={setModalContent}
-                setReloadUsers={setReloadUsers}                      
+                setReloadUsers={setReloadUsers}
+                ShowDeleteConfirm={ShowDeleteConfirm}
             />
             ) : (
             <UsersInactive 
                 usersInactive ={usersInactive}
-                setReloadUsers = {setReloadUsers}                
+                setReloadUsers = {setReloadUsers}
+                ShowDeleteConfirm={ShowDeleteConfirm}                
             />)}
 
             <Modal
@@ -86,7 +118,8 @@ function UsersActive(props) {
         setIsVisibleModal,
         setModalTitle,
         setModalContent,
-        setReloadUsers                      
+        setReloadUsers,
+        ShowDeleteConfirm                      
     } = props;
 
     const editUser = (user) => {
@@ -95,7 +128,7 @@ function UsersActive(props) {
         setModalContent(<EditUserForm 
                         user = {user} 
                         setIsVisibleModal = {setIsVisibleModal}
-                        setReloadUsers = {setReloadUsers}                        
+                        setReloadUsers = {setReloadUsers}                      
                         />);
         
     }
@@ -108,14 +141,15 @@ function UsersActive(props) {
             renderItem={user => <UserActive 
                                 user={user} 
                                 editUser={editUser} 
-                                setReloadUsers={setReloadUsers}                                
+                                setReloadUsers={setReloadUsers}
+                                ShowDeleteConfirm={ShowDeleteConfirm}                                
                                 />}
         />
     );
 }
 
 function UserActive(props) {
-    const { user, editUser, setReloadUsers } = props;
+    const { user, editUser, setReloadUsers, ShowDeleteConfirm } = props;
     const [avatar, setAvatar] = useState(null);
 
     useEffect(() => {
@@ -128,31 +162,32 @@ function UserActive(props) {
         }
     }, [user]);
 
-    const ShowDeleteConfirm = () =>{
-        const accesToken = getAccessTokenApi();     
+    // Desactivo el ShowDeleteConfirm para usarlo solo una vez
+    // const ShowDeleteConfirm = () =>{
+    //     const accesToken = getAccessTokenApi();     
 
-        confirm({
-            title: "Eliminando Usuario",
-            content: `¿Estás seguro que quieres eliminar a ${user.email}?`,
-            okText: "Eliminar",
-            okType: "danger",
-            cancelText: "Cancelar",
-            onOk() {
-                deleteUserApi(accesToken, user._id)
-                .then(response =>{
-                    notification["success"]({
-                        message: response
-                    });
-                    setReloadUsers(true);
-                })
-                .catch(err =>{
-                    notification["error"]({
-                        message: err
-                    });
-                });
-            }            
-        });
-    };
+    //     confirm({
+    //         title: "Eliminando Usuario",
+    //         content: `¿Estás seguro que quieres eliminar a ${user.email}?`,
+    //         okText: "Eliminar",
+    //         okType: "danger",
+    //         cancelText: "Cancelar",
+    //         onOk() {
+    //             deleteUserApi(accesToken, user._id)
+    //             .then(response =>{
+    //                 notification["success"]({
+    //                     message: response
+    //                 });
+    //                 setReloadUsers(true);
+    //             })
+    //             .catch(err =>{
+    //                 notification["error"]({
+    //                     message: err
+    //                 });
+    //             });
+    //         }            
+    //     });
+    // };
 
     const desactivateUser = () =>{
         const accesToken = getAccessTokenApi();
@@ -189,7 +224,7 @@ function UserActive(props) {
                 </Button>,
                 <Button
                     type="danger"
-                    onClick={ShowDeleteConfirm}
+                    onClick={ShowDeleteConfirm(user)}
                 >
                     <DeleteOutlined />
                 </Button>
@@ -209,7 +244,7 @@ function UserActive(props) {
 }
 
 function UsersInactive(props) {
-    const { usersInactive, setReloadUsers } = props;
+    const { usersInactive, setReloadUsers, ShowDeleteConfirm } = props;
     return (
         <List
             className="users-active"
@@ -217,14 +252,15 @@ function UsersInactive(props) {
             dataSource={usersInactive}
             renderItem={user => <UserInactive 
                             user={user} 
-                            setReloadUsers={setReloadUsers}                            
+                            setReloadUsers={setReloadUsers}
+                            ShowDeleteConfirm={ShowDeleteConfirm}                            
                             />}
         />
     );
 }
 
 function UserInactive(props) {
-    const { user, setReloadUsers } = props;
+    const { user, setReloadUsers, ShowDeleteConfirm } = props;
 
     const [avatar, setAvatar] = useState(null);
 
@@ -238,30 +274,31 @@ function UserInactive(props) {
         }
     }, [user]);
 
-    const ShowDeleteConfirm = () =>{
-        const accesToken = getAccessTokenApi();        
-        confirm({
-            title: "Eliminando Usuario",
-            content: `¿Estás seguro que quieres eliminar a ${user.email}?`,
-            okText: "Eliminar",
-            okType: "danger",
-            cancelText: "Cancelar",
-            onOk() {
-                deleteUserApi(accesToken, user._id)
-                .then(response =>{
-                    notification["success"]({
-                        message: response
-                    });
-                    setReloadUsers(true);
-                })
-                .catch(err =>{
-                    notification["error"]({
-                        message: err
-                    });
-                });
-            }            
-        });
-    };
+    // Desactivo el ShowDeleteConfirm para usarlo solo una vez
+    // const ShowDeleteConfirm = () =>{
+    //     const accesToken = getAccessTokenApi();        
+    //     confirm({
+    //         title: "Eliminando Usuario",
+    //         content: `¿Estás seguro que quieres eliminar a ${user.email}?`,
+    //         okText: "Eliminar",
+    //         okType: "danger",
+    //         cancelText: "Cancelar",
+    //         onOk() {
+    //             deleteUserApi(accesToken, user._id)
+    //             .then(response =>{
+    //                 notification["success"]({
+    //                     message: response
+    //                 });
+    //                 setReloadUsers(true);
+    //             })
+    //             .catch(err =>{
+    //                 notification["error"]({
+    //                     message: err
+    //                 });
+    //             });
+    //         }            
+    //     });
+    // };
 
     const activateUser = () =>{
         const accesToken = getAccessTokenApi();
@@ -292,7 +329,7 @@ function UserInactive(props) {
                 </Button>,
                 <Button
                     type="danger"
-                    onClick={ShowDeleteConfirm}
+                    onClick={ShowDeleteConfirm(user)}
                 >
                     <DeleteOutlined />
                 </Button>
