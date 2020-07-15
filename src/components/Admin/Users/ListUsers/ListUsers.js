@@ -31,13 +31,9 @@ export default function ListUsers(props) {
         )
     }
 
-    //Aqui pongo el ShowDeleteConfirm para no repetir código
+    // Aqui pongo el ShowDeleteConfirm para no repetir código
     const ShowDeleteConfirm = (user) =>{
         const accesToken = getAccessTokenApi();
-
-        
-
-
         confirm({
             title: "Eliminando Usuario",
             content: `¿Estás seguro que quieres eliminar a ${user.email}?`,
@@ -119,7 +115,7 @@ function UsersActive(props) {
         setModalTitle,
         setModalContent,
         setReloadUsers,
-        ShowDeleteConfirm                      
+        ShowDeleteConfirm
     } = props;
 
     const editUser = (user) => {
@@ -161,34 +157,7 @@ function UserActive(props) {
             setAvatar(null);
         }
     }, [user]);
-
-    // Desactivo el ShowDeleteConfirm para usarlo solo una vez
-    // const ShowDeleteConfirm = () =>{
-    //     const accesToken = getAccessTokenApi();     
-
-    //     confirm({
-    //         title: "Eliminando Usuario",
-    //         content: `¿Estás seguro que quieres eliminar a ${user.email}?`,
-    //         okText: "Eliminar",
-    //         okType: "danger",
-    //         cancelText: "Cancelar",
-    //         onOk() {
-    //             deleteUserApi(accesToken, user._id)
-    //             .then(response =>{
-    //                 notification["success"]({
-    //                     message: response
-    //                 });
-    //                 setReloadUsers(true);
-    //             })
-    //             .catch(err =>{
-    //                 notification["error"]({
-    //                     message: err
-    //                 });
-    //             });
-    //         }            
-    //     });
-    // };
-
+    
     const desactivateUser = () =>{
         const accesToken = getAccessTokenApi();
 
@@ -224,7 +193,7 @@ function UserActive(props) {
                 </Button>,
                 <Button
                     type="danger"
-                    onClick={ShowDeleteConfirm(user)}
+                    onClick={e => ShowDeleteConfirm(user)}
                 >
                     <DeleteOutlined />
                 </Button>
@@ -244,7 +213,7 @@ function UserActive(props) {
 }
 
 function UsersInactive(props) {
-    const { usersInactive, setReloadUsers, ShowDeleteConfirm } = props;
+    const { usersInactive, setReloadUsers,ShowDeleteConfirm } = props;
     return (
         <List
             className="users-active"
@@ -260,7 +229,7 @@ function UsersInactive(props) {
 }
 
 function UserInactive(props) {
-    const { user, setReloadUsers, ShowDeleteConfirm } = props;
+    const { user, setReloadUsers,ShowDeleteConfirm } = props;
 
     const [avatar, setAvatar] = useState(null);
 
@@ -273,32 +242,6 @@ function UserInactive(props) {
             setAvatar(null);
         }
     }, [user]);
-
-    // Desactivo el ShowDeleteConfirm para usarlo solo una vez
-    // const ShowDeleteConfirm = () =>{
-    //     const accesToken = getAccessTokenApi();        
-    //     confirm({
-    //         title: "Eliminando Usuario",
-    //         content: `¿Estás seguro que quieres eliminar a ${user.email}?`,
-    //         okText: "Eliminar",
-    //         okType: "danger",
-    //         cancelText: "Cancelar",
-    //         onOk() {
-    //             deleteUserApi(accesToken, user._id)
-    //             .then(response =>{
-    //                 notification["success"]({
-    //                     message: response
-    //                 });
-    //                 setReloadUsers(true);
-    //             })
-    //             .catch(err =>{
-    //                 notification["error"]({
-    //                     message: err
-    //                 });
-    //             });
-    //         }            
-    //     });
-    // };
 
     const activateUser = () =>{
         const accesToken = getAccessTokenApi();
@@ -316,7 +259,6 @@ function UserInactive(props) {
             });
         });
     };
-
     
     return(
         <List.Item
@@ -329,7 +271,7 @@ function UserInactive(props) {
                 </Button>,
                 <Button
                     type="danger"
-                    onClick={ShowDeleteConfirm(user)}
+                    onClick={ e => ShowDeleteConfirm(user)}
                 >
                     <DeleteOutlined />
                 </Button>

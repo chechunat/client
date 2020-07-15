@@ -182,8 +182,8 @@ function EditForm(props) {
                     <Select
                         className="form-edit__select"
                         placeholder="Selecciona un rol de usuario"
-                        onChange={event => setUserData({ ...userData, role: event})}
                         value={userData.role}
+                        onChange={event => setUserData({ ...userData, role: event})}
                         >
                         <Option value="admin">Administrador</Option>
                         <Option value="editor">Editor</Option>
@@ -200,7 +200,8 @@ function EditForm(props) {
                             prefix={<LockOutlined className="form-edit__icono"/>}
                             type="password"
                             placeholder="Contraseña"
-                            onChange={event => setUserData({ ...userData, password: event.target.value})}
+                            value={userData.password}
+                            onChange={event => setUserData({ ...userData, password: event.target.value})}                            
                         />
                     </Form.Item>                
                 </Col>
@@ -210,6 +211,7 @@ function EditForm(props) {
                             prefix={<LockOutlined className="form-edit__icono"/>}
                             type="password"
                             placeholder="Repetir Contraseña"
+                            value={userData.repeatPassword}
                             onChange={event => setUserData({ ...userData, repeatPassword: event.target.value})}
                         />
                     </Form.Item>
