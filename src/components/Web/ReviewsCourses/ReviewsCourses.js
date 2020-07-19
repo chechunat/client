@@ -10,11 +10,13 @@ export default function ReviewsCourses() {
     return (
         
         <Row className="reviews-courses">
-            <Col lg={4} />
-            <Col lg={16} className="reviews-courses__title">
-                <h2>Forma parte de los +35 estudiantes que están aprenciendo con mis cursos</h2>
-            </Col>
-            <Col lg={4} />        
+            <Row>
+                <Col lg={4} />
+                <Col lg={16} className="reviews-courses__title">
+                    <h2>Forma parte de los +35 estudiantes que están aprenciendo con mis cursos</h2>
+                </Col>
+                <Col lg={4} />        
+            </Row>
             <Row>
                 <Col lg={4} />
                 <Col lg={16}>

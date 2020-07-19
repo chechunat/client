@@ -8,6 +8,12 @@
         text-align: center;
         margin-bottom: 20px;
 
+        .row-courses {
+            .ant-col {
+                padding: 15px !important;
+            }
+        }
+
         h2 {
             color: $font-light;
             font-size: 32px;
@@ -27,7 +33,7 @@
         background-color: transparent;
         
         .ant-card-body {
-            min-height: 200px;
+            min-height: 150px;            
         }
 
 

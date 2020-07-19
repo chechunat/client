@@ -14,7 +14,8 @@ export default function HowMyCoursesWork() {
                     Cada curso cuenta con contenido bajo la web de udemy, 
                     activa las 24 horas al día, los 365 días del año.
                 </h3>
-            </Col>
+            </Col> 
+        
             <Col lg={4} />
             <Col lg={16}>
                 <Row className="row-cards">
